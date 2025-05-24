@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, DollarSign, BarChart } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import PerformanceChart from '../components/dashboard/PerformanceChart';
+import LiveChart from '../components/trading/LiveChart';
 import ActiveTrades from '../components/dashboard/ActiveTrades';
 import RecentTrades from '../components/dashboard/RecentTrades';
 import TradeDistribution from '../components/dashboard/TradeDistribution';
@@ -69,18 +69,15 @@ const Dashboard: React.FC = () => {
         />
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <PerformanceChart />
-        </div>
-        <div>
-          <TradeDistribution />
-        </div>
-      </div>
+      <LiveChart />
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ActiveTrades />
         <RecentTrades />
+      </div>
+      
+      <div>
+        <TradeDistribution />
       </div>
     </div>
   );
