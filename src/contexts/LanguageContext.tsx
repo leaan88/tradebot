@@ -10,6 +10,21 @@ interface LanguageContextType {
 
 const translations = {
   en: {
+    // Authentication
+    'login': 'Log In',
+    'register': 'Register',
+    'email': 'Email',
+    'password': 'Password',
+    'confirmPassword': 'Confirm Password',
+    'username': 'Username',
+    'loggingIn': 'Logging in...',
+    'creating': 'Creating account...',
+    'createAccount': 'Create Account',
+    'loginWelcome': 'Welcome back! Please log in to your account.',
+    'noAccount': "Don't have an account?",
+    'alreadyHaveAccount': 'Already have an account?',
+    'passwordsNotMatch': 'Passwords do not match',
+    
     // Dashboard
     'dashboard': 'Dashboard',
     'totalProfit': 'Total Profit',
@@ -51,6 +66,21 @@ const translations = {
     'area': 'Area Chart',
   },
   es: {
+    // Authentication
+    'login': 'Iniciar Sesión',
+    'register': 'Registrarse',
+    'email': 'Correo Electrónico',
+    'password': 'Contraseña',
+    'confirmPassword': 'Confirmar Contraseña',
+    'username': 'Nombre de Usuario',
+    'loggingIn': 'Iniciando sesión...',
+    'creating': 'Creando cuenta...',
+    'createAccount': 'Crear Cuenta',
+    'loginWelcome': '¡Bienvenido de nuevo! Por favor, inicia sesión en tu cuenta.',
+    'noAccount': '¿No tienes una cuenta?',
+    'alreadyHaveAccount': '¿Ya tienes una cuenta?',
+    'passwordsNotMatch': 'Las contraseñas no coinciden',
+    
     // Dashboard
     'dashboard': 'Panel de Control',
     'totalProfit': 'Beneficio Total',
