@@ -22,7 +22,7 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login\" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={
         <PrivateRoute>
