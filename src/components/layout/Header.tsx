@@ -1,9 +1,11 @@
 import React from 'react';
-import { Bell, Settings, Moon, Sun } from 'lucide-react';
+import { Bell, Settings, Moon, Sun, Languages } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
 
   return (
     <header className={`h-16 flex items-center justify-between px-6 border-b ${
@@ -20,11 +22,21 @@ const Header: React.FC = () => {
         <div className={`px-3 py-1 rounded-full ${
           theme === 'dark' ? 'bg-green-500/10 text-green-400' : 'bg-green-100 text-green-800'
         }`}>
-          <span className="text-sm font-medium">Market Open</span>
+          <span className="text-sm font-medium">{t('marketOpen')}</span>
         </div>
 
         <button className="p-2 rounded-full hover:bg-gray-700/10 transition-colors">
           <Bell size={20} />
+        </button>
+        
+        <button 
+          className="p-2 rounded-full hover:bg-gray-700/10 transition-colors"
+          onClick={toggleLanguage}
+        >
+          <Languages size={20} />
+          <span className="sr-only">
+            {language === 'en' ? 'Switch to Spanish' : 'Cambiar a Inglés'}
+          </span>
         </button>
         
         <button 
