@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 interface User {
   id: string;
@@ -19,7 +17,19 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const JWT_SECRET = 'your-secret-key'; // In production, use environment variable
+// Simple mock token generation
+const generateToken = (user: Omit<User, 'id'>) => {
+  return btoa(JSON.stringify({ ...user, id: crypto.randomUUID() }));
+};
+
+// Simple mock token verification
+const verifyToken = (token: string): User | null => {
+  try {
+    return JSON.parse(atob(token));
+  } catch {
+    return null;
+  }
+};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -28,10 +38,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      try {
-        const decoded = jwt.verify(token, JWT_SECRET) as User;
+      const decoded = verifyToken(token);
+      if (decoded) {
         setUser(decoded);
-      } catch (error) {
+      } else {
         localStorage.removeItem('token');
         setUser(null);
       }
@@ -47,16 +57,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw new Error('User not found');
     }
 
-    const isValid = await bcrypt.compare(password, storedUser.password);
-    if (!isValid) {
+    if (password !== storedUser.password) {
       throw new Error('Invalid password');
     }
 
-    const token = jwt.sign(
-      { id: storedUser.id, username: storedUser.username, email: storedUser.email },
-      JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    const token = generateToken({
+      username: storedUser.username,
+      email: storedUser.email
+    });
 
     localStorage.setItem('token', token);
     setUser({ id: storedUser.id, username: storedUser.username, email: storedUser.email });
@@ -71,22 +79,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw new Error('Email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       id: crypto.randomUUID(),
       username,
       email,
-      password: hashedPassword
+      password // In a real app, this would be hashed on the server
     };
 
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
 
-    const token = jwt.sign(
-      { id: newUser.id, username: newUser.username, email: newUser.email },
-      JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    const token = generateToken({
+      username: newUser.username,
+      email: newUser.email
+    });
 
     localStorage.setItem('token', token);
     setUser({ id: newUser.id, username: newUser.username, email: newUser.email });
